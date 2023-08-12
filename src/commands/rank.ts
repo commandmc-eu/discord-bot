@@ -31,7 +31,7 @@ export default {
           "Die Dauer, für die der Rang vergeben werden soll in Tagen."
         )
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
 

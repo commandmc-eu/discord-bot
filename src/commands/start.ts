@@ -15,7 +15,7 @@ export default {
         .setRequired(true)
         .setAutocomplete(true)
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
   async execute(interaction) {
     const server = interaction.options.get("server")?.value as string;
     if (!servers.includes(server)) {
@@ -32,7 +32,7 @@ export default {
       });
     }
 
-    exec(`cd /home/${server}; sh start.sh &`);
+    exec(`cd /home/${server}; sh start-silent.sh &`);
 
     return await interaction.reply({
       content: "Der Server wird gestartet.",

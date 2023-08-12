@@ -6,12 +6,12 @@ const servers = ["minigame", "spightwars"];
 
 export default {
   data: new SlashCommandBuilder()
-    .setName("restart")
-    .setDescription("Startet den Server neu.")
+    .setName("start")
+    .setDescription("Startet den Server.")
     .addStringOption((option) =>
       option
         .setName("server")
-        .setDescription("Der Server, der neugestartet werden soll.")
+        .setDescription("Der Server, der gestartet werden soll.")
         .setRequired(true)
         .setAutocomplete(true)
     )
@@ -25,10 +25,17 @@ export default {
       });
     }
 
-    exec(`sh /home/${server}/start.sh`);
+    if (await isServerRunning(server)) {
+      return await interaction.reply({
+        content: "Der Server läuft bereits.",
+        ephemeral: true,
+      });
+    }
+
+    exec(`cd /home/${server}; sh /start.sh`);
 
     return await interaction.reply({
-      content: "Der Server wird neugestartet.",
+      content: "Der Server wird gestartet.",
       ephemeral: true,
     });
   },
@@ -53,3 +60,17 @@ export default {
     );
   },
 } satisfies Command;
+
+const isServerRunning = (name: string) => {
+  return new Promise((resolve) => {
+    exec("screen -list", (error, stdout, stderr) => {
+      if (error) {
+        return resolve(false);
+      }
+      if (stderr) {
+        return resolve(false);
+      }
+      return resolve(stdout.includes(name));
+    });
+  });
+};

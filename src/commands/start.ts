@@ -32,7 +32,7 @@ export default {
       });
     }
 
-    exec(`cd /home/${server}; sh start.sh`);
+    exec(`cd /home/${server}; sh start.sh &`);
 
     return await interaction.reply({
       content: "Der Server wird gestartet.",

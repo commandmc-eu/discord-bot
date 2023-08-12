@@ -11,6 +11,6 @@ export type Command = {
     | Omit<SlashCommandBuilder, "addSubcommand" | "addSubcommandGroup">;
   execute: (
     interaction: CommandInteraction
-  ) => Promise<InteractionResponse<boolean> | undefined>;
+  ) => Promise<InteractionResponse<boolean> | undefined | void>;
   autocomplete?: (interaction: AutocompleteInteraction) => Promise<void>;
 };

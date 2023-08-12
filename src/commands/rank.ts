@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { SlashCommandBuilder } from "discord.js";
+import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { players } from "../db/schema";
@@ -30,7 +30,8 @@ export default {
         .setDescription(
           "Die Dauer, für die der Rang vergeben werden soll in Tagen."
         )
-    ),
+    )
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   async autocomplete(interaction) {
     const focusedValue = interaction.options.getFocused();
 

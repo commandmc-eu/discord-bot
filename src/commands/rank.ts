@@ -78,7 +78,7 @@ export default {
     const duration = interaction.options.get("duration")?.value as number;
     if (!duration) {
       executeMinecraftCommand(
-        `tellraw Meierschlumpf "${playerFromDb.minecraftUuid} ${rank}"`
+        `interface rank set ${playerFromDb.minecraftUuid} ${rank}`
       );
       return await interaction.reply({
         content: `Du hast den ${rank}-Rang für unendlich Tage vergeben.`,
@@ -87,7 +87,7 @@ export default {
     }
 
     executeMinecraftCommand(
-      `tellraw Meierschlumpf "${playerFromDb.minecraftUuid} ${rank} ${duration}"`
+      `interface rank set ${playerFromDb.minecraftUuid} ${rank} ${duration}}`
     );
     return await interaction.reply({
       content: `Du hast den ${rank}-Rang für ${duration} Tage vergeben.`,

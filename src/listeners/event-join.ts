@@ -8,5 +8,12 @@ export const registerListener = (client: Client) => {
 const handleInteractionWith =
   (client: Client) => async (event: GuildScheduledEvent, user: User) => {
     if (event.id !== VALORANT_EVENT_ID) return;
-    event.guild?.members.cache.get(user.id)?.roles.add(VALORANT_ROLE_ID);
+    try {
+      console.log(`Adding ${user.username} to ${event.guild?.name}`);
+      await event.guild?.members.cache
+        .get(user.id)
+        ?.roles.add(VALORANT_ROLE_ID);
+    } catch (error) {
+      console.error(error);
+    }
   };

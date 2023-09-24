@@ -69,7 +69,7 @@ export default {
         });
       }
 
-      executeMinecraftCommand(`interface rank set ${playerFromDb.minecraftUuid} ${rank} ${duration}}`);
+      executeMinecraftCommand(`interface rank set ${playerFromDb.minecraftUuid} ${rank} ${duration}`);
       executeLogger.info(`User ${interaction.user.username} set rank ${rank} for ${user.username} for ${duration} days.`);
       return await interaction.reply({
         content: `Du hast den ${rank}-Rang für ${duration} Tage vergeben.`,

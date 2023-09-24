@@ -2,6 +2,9 @@ import { Client, Collection } from "discord.js";
 import path from "path";
 import fs from "fs";
 import { Command } from "src/types/command";
+import { createLogger } from "../log";
+
+const logger = createLogger("helpers/register-commands.ts", "registerCommands");
 
 export const registerCommands = (client: Client, dir: string) => {
   client.commands = new Collection();
@@ -14,10 +17,9 @@ export const registerCommands = (client: Client, dir: string) => {
     const command = imported.default as Command;
     if ("data" in command && "execute" in command) {
       client.commands.set(command.data.name, command);
+      logger.info(`Registered command ${command.data.name}`);
     } else {
-      console.log(
-        `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
-      );
+      logger.warning(`The command at ${filePath} is missing a required "data" or "execute" property.`);
     }
   }
 };

@@ -1,10 +1,11 @@
 import { SlashCommandBuilder } from "discord.js";
 import { Command } from "../types/command";
+import { createLogger, messageFromCatch } from "../log";
+
+const logger = createLogger("commands/servers.ts", "execute");
 
 export default {
-  data: new SlashCommandBuilder()
-    .setName("servers")
-    .setDescription("Gibt dir Informtionen zu unseren Servern"),
+  data: new SlashCommandBuilder().setName("servers").setDescription("Gibt dir Informtionen zu unseren Servern"),
   async execute(interaction) {
     await interaction.deferReply({
       ephemeral: true,
@@ -35,23 +36,17 @@ export default {
         ],
       });
     } catch (error) {
+      logger.error("Unable to fetch server data.");
+      logger.error(messageFromCatch(error));
       interaction.editReply({
-        content:
-          "Es ist ein Fehler aufgetreten. Die API ist aktuell nicht erreichbar.",
+        content: "Es ist ein Fehler aufgetreten. Die API ist aktuell nicht erreichbar.",
       });
     }
   },
 } satisfies Command;
 
-const getServerEmbed = async (
-  domain: string,
-  title: string,
-  description: string,
-  version: string
-) => {
-  const data = await fetch(`https://api.mcsrvstat.us/2/${domain}`).then((res) =>
-    res.json()
-  );
+const getServerEmbed = async (domain: string, title: string, description: string, version: string) => {
+  const data = await fetch(`https://api.mcsrvstat.us/2/${domain}`).then((res) => res.json());
 
   const basicFields = [
     {
